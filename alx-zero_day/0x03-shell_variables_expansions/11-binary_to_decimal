@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "$((2#$BINARY))" or printf "$((ibase=2:$BINARY))"
