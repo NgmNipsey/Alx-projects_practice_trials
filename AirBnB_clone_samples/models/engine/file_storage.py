@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""storage"""
 import os
 import json
 from models.base_model import BaseModel
@@ -10,6 +11,7 @@ from models.place import Place
 from models.review import Review
 
 class FileStorage():
+    """storage class"""
     __file_path = "file.json"
     __objects = {}
 
@@ -22,6 +24,7 @@ class FileStorage():
             self.__objects[key] = obj
 
     def save(self):
+        """ save as json string"""
         obj_dict = {}
         for key, obj in self.__objects.items():
             obj_dict[key] = obj.to_dict()
@@ -29,6 +32,7 @@ class FileStorage():
             json.dump(obj_dict, f)
 
     def reload(self):
+        """convert from json to python3"""
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
                 new_obj_dict = json.load(f)

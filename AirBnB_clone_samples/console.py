@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Class that conrol the entry point"""
 import cmd
 from models import storage
 from models.base_model import BaseModel
@@ -9,7 +10,9 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
+    """ Inherite from cmd """
     prompt = "(hbnb) "
     __classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
 
@@ -22,9 +25,11 @@ class HBNBCommand(cmd.Cmd):
         return (True)
 
     def emptyline(self):
+        """control empty line"""
         return
 
     def do_create(self, arg):
+        """create sub classes"""
         args = arg.split()
 
         if len(args) == 0:
@@ -36,19 +41,22 @@ class HBNBCommand(cmd.Cmd):
             print(new_obj.id)
 
     def do_show(self, arg):
-         args = arg.split()
+        """show created class details"""
+        args = arg.split()
 
-         if len(args) == 0:
-             print("** class name missing **")
-         elif args[0] not in self.__classes:
-             print("** class doesn't exist **")
-         elif len(args) == 1:
-             print("** instance id missing **")
-         elif f"{args[0]}.{args[1]}" not in storage.all():
-             print("** no instance found **")
-         else:
-             print(storage.all()[f"{args[0]}.{args[1]}"])
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.__classes:
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif f"{args[0]}.{args[1]}" not in storage.all():
+            print("** no instance found **")
+        else:
+            print(storage.all()[f"{args[0]}.{args[1]}"])
+
     def do_destroy(self, arg):
+        """destroy created class"""
         args = arg.split()
 
         if len(args) == 0:
@@ -62,7 +70,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             del storage.all()[f"{args[0]}.{args[1]}"]
             storage.save()
+
     def do_all(self, arg):
+        """show specific class"""
         args = arg.split()
 
         if len(args) == 0:
@@ -73,6 +83,7 @@ class HBNBCommand(cmd.Cmd):
             print([str(v) for k, v in storage.all().items() if k.startswith(args[0])])
 
     def do_update(self, arg):
+        """update all class"""
         args = arg.split()
 
         if len(args) == 0:
