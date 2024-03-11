@@ -39,6 +39,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_obj = eval(f"{args[0]}")()
             print(new_obj.id)
+            storage.save()
 
     def do_show(self, arg):
         """show created class details"""
@@ -98,6 +99,24 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         elif len(args) == 3:
             print("** value missing **")
+        else:
+            obj_class = args[0]
+            obj_id = args[1]
+            obj_key = obj_class + "." + obj_id
+            obj = storage.all()[obj_key]
+
+            attr_name = args[2]
+            attr_value = args[3]
+            if attr_value[0] == '"':
+                attr_value = attr_value[1:-1]
+            if hasattr(obj, attr_name):
+                type_attr = type(getattr(obj, attr_name))
+                if type_attr in [str, float, int]:
+                    attr_value = type_attr(attr_value)
+                    setattr(obj, attr_name, attr_value)
+            else:
+                setattr(obj, attr_name, attr_value)
+                storage.save()
 
 
 if __name__ == '__main__':
